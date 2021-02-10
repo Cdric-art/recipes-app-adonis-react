@@ -2,10 +2,15 @@
 [*]
 indent_style = space
 indent_size = 2
+ij_typescript_use_double_quotes = false
+ij_typescript_force_semicolon_style = false
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+ij_typescript_space_before_function_left_parenth = true
+ij_typescript_space_before_async_arrow_lparen = true
+ij_typescript_use_semicolon_after_statement = false
 
 [*.json]
 insert_final_newline = ignore
