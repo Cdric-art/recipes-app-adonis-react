@@ -28,8 +28,27 @@ export default class RecipesController {
     const recipe = await Recipe.create(payload)
 
     const computedIngredients = RecipesController.computeIngredients(payload)
-    await recipe.related('ingredients').sync(computedIngredients)
+    await recipe.related('ingredients').attach(computedIngredients)
 
     return response.created(recipe)
+  }
+
+  public async update ({ params, request }: HttpContextContract) {
+    const payload = await request.validate(RecipeValidator)
+    const recipe = await Recipe.findOrFail(params.id)
+
+    await recipe.merge(payload).save()
+
+    const computedIngredients = RecipesController.computeIngredients(payload)
+    await recipe.related('ingredients').sync(computedIngredients)
+
+    return recipe
+  }
+
+  public async destroy ({ params, response}: HttpContextContract) {
+    const recipe = await Recipe.findOrFail(params.id)
+    await recipe.delete()
+
+    return response.noContent()
   }
 }

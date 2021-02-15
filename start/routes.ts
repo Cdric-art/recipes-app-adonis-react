@@ -27,4 +27,7 @@ Route.group(() => {
 
   // Recettes
   Route.resource('recipes', 'RecipesController').apiOnly()
+
+  // Ingredients
+  Route.resource('ingredients', 'IngredientsController').apiOnly()
 }).middleware(['auth'])
