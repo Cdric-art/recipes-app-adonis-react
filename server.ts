@@ -18,4 +18,4 @@ sourceMapSupport.install({ handleUncaughtExceptions: false })
 
 new Ignitor(__dirname)
   .httpServer()
-  .start()
+  .start().then(() => console.log('Server Running at port : 3333'))
