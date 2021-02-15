@@ -1,5 +1,4 @@
-import {BaseModel, column, computed, manyToMany} from '@ioc:Adonis/Lucid/Orm'
-import {ManyToMany} from '@ioc:Adonis/Lucid/Relations'
+import {BaseModel, column, computed, manyToMany, ManyToMany} from '@ioc:Adonis/Lucid/Orm'
 import Recipe from 'App/Models/Recipe'
 
 export default class Ingredient extends BaseModel {

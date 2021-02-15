@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
-import {BaseModel, column, manyToMany} from '@ioc:Adonis/Lucid/Orm'
+import {BaseModel, column, manyToMany, ManyToMany} from '@ioc:Adonis/Lucid/Orm'
 import Ingredient from 'App/Models/Ingredient'
-import {ManyToMany} from '@ioc:Adonis/Lucid/Relations'
 
 export default class Recipe extends BaseModel {
   @column({ isPrimary: true })
