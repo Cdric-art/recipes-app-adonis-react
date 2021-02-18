@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Alert from './Utils/Alert';
+import {ApiErrors, apiFetch} from './Utils/api';
+import Button from './Utils/Button';
 
-const LoginForm = ({ onConnect }) => {
+const LoginForm = ({onConnect}) => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,21 +14,21 @@ const LoginForm = ({ onConnect }) => {
     setLoading(true);
     e.preventDefault();
     const data = new FormData(e.target);
-    const response = await fetch('http://127.0.0.1:3333/login', {
-      method: 'post',
-      body: data,
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-    const responseData = await response.json();
-    if (response.ok) {
-      onConnect(responseData)
-    } else {
-      setError(responseData.errors[0].message);
-      setLoading(false)
+    try {
+      const user = await apiFetch('/login', {
+        method: 'post',
+        body: data,
+      });
+      onConnect(user);
+    } catch (e) {
+      if (e instanceof ApiErrors) {
+        setError(e.errors[0].message);
+      } else {
+        console.log(e);
+      }
+      setLoading(false);
     }
+
   };
 
   return (
@@ -41,7 +43,7 @@ const LoginForm = ({ onConnect }) => {
         <label htmlFor="password">Mot de passe</label>
         <input type="password" name="password" id="password" className="form-control" required/>
       </div>
-      <button disabled={loading} type="submit" className="btn btn-primary">Se connecter</button>
+      <Button loading={loading} type="submit">Se connecter</Button>
     </form>
   );
 };

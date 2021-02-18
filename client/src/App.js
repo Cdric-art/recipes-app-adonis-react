@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
 import {apiFetch} from './components/Utils/api';
+import Site from './components/Site';
 
 const App = () => {
 
@@ -9,7 +10,7 @@ const App = () => {
   useEffect(() => {
     apiFetch('/me')
       .then(user => setUser(user))
-      .catch(() => setUser(false))
+      .catch(() => setUser(false));
   }, []);
 
   if (user === null) {
@@ -17,7 +18,7 @@ const App = () => {
   }
 
   return (
-    user ? <div>Connected !</div> : <LoginForm onConnect={setUser}/>
+    user ? <Site/> : <LoginForm onConnect={setUser}/>
   );
 
 };
