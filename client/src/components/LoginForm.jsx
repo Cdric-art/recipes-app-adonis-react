@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import Alert from './Utils/Alert';
+import Alert from './Ui/Alert';
 import {ApiErrors, apiFetch} from './Utils/api';
-import Button from './Utils/Button';
+import Button from './Ui/Button';
 
 const LoginForm = ({onConnect}) => {
 

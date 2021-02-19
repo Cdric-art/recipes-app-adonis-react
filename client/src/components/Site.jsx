@@ -34,12 +34,14 @@ const Site = () => {
     ingredients,
     fetchIngredients,
     deleteIngredient,
+    updateIngredient,
+    createIngredient,
   } = useIngredients();
 
   let content = null;
 
   if (page === 'ingredients') {
-    content = <Ingredients ingredients={ingredients} onDelete={deleteIngredient}/>;
+    content = <Ingredients ingredients={ingredients} onDelete={deleteIngredient} onUpdate={updateIngredient} onCreate={createIngredient}/>;
   }
 
   useEffect(() => {
