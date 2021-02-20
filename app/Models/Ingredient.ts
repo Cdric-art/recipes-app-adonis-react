@@ -1,5 +1,6 @@
 import {BaseModel, column, computed, manyToMany, ManyToMany} from '@ioc:Adonis/Lucid/Orm'
 import Recipe from 'App/Models/Recipe'
+import {DateTime} from 'luxon'
 
 export default class Ingredient extends BaseModel {
   @column({isPrimary: true})
@@ -9,7 +10,13 @@ export default class Ingredient extends BaseModel {
   public title: string
 
   @column()
-  public unit: string
+  public unit?: string
+
+  @column.dateTime({ autoCreate: true })
+  public created_at: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public updated_at: DateTime
 
   @computed()
   public get quantity () {
