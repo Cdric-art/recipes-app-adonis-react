@@ -50,6 +50,7 @@ const Site = () => {
     recipe,
     fetchRecipes,
     fetchRecipe,
+    createRecipe,
     deselectRecipe,
   } = useRecipes();
 
@@ -79,7 +80,7 @@ const Site = () => {
       {
         add && (
           <Modal onClose={toggleAdd} title="Créer une recette">
-            <CreateRecipeForm ingredients={ingredients}/>
+            <CreateRecipeForm ingredients={ingredients} onSubmit={createRecipe}/>
           </Modal>)
       }
     </>

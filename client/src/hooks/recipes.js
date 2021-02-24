@@ -15,6 +15,8 @@ function reducer(state, action) {
       ...state,
       recipes: state.recipes.map(r => r.id === action.payload.id ? action.payload : r),
     };
+  case 'ADD_RECIPE':
+    return {...state, recipes: [action.payload, ...state.recipes]}
   case 'DESELECT_RECIPE':
     return {...state, recipeId: null};
   default:
@@ -45,10 +47,17 @@ export function useRecipes() {
     },
     fetchRecipe: useCallback(async (recipe) => {
       dispatch({type: 'FETCHING_RECIPE', payload: recipe});
-      if (!recipe.content) {
+      if (!recipe.ingredients) {
         recipe = await apiFetch(`/recipes/${recipe.id}`);
         dispatch({type: 'SET_RECIPE', payload: recipe});
       }
+    }, []),
+    createRecipe: useCallback(async (data) => {
+      const recipe = await apiFetch('/recipes', {
+        method: 'POST',
+        body: data
+      })
+      dispatch({type: 'ADD_RECIPE', payload: recipe})
     }, []),
     deselectRecipe: async () => {
       dispatch({type: 'DESELECT_RECIPE'});
