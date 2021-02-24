@@ -6,7 +6,13 @@ import Button from '../Ui/Button';
 import {Trash} from '../Ui/Icons';
 import {ApiErrors} from '../Utils/api';
 
-const CreateRecipeForm = ({ingredients, onSubmit}) => {
+export function CreateRecipeForm({ingredients, onSubmit}) {
+  return <RecipeForm ingredients={ingredients} onSubmit={onSubmit} button="Ajouter"/>;
+}
+export function EditRecipeForm({ingredients, onSubmit, recipe}) {
+  return <RecipeForm ingredients={ingredients} onSubmit={onSubmit} recipe={recipe} button="Éditer"/>;
+}
+const RecipeForm = ({ingredients, onSubmit, recipe = {}, button}) => {
 
   const {
     ingredients: recipeIngredients,
@@ -14,7 +20,7 @@ const CreateRecipeForm = ({ingredients, onSubmit}) => {
     updateQuantity,
     deleteIngredient,
     resetIngredients,
-  } = useIngredients();
+  } = useIngredients(recipe.ingredients);
 
   const [errors, setErrors] = useState({})
 
@@ -45,16 +51,18 @@ const CreateRecipeForm = ({ingredients, onSubmit}) => {
   return (
     <form className="row" onSubmit={handleSubmit}>
       <div className="col-md-6">
-        <Field name="title" error={errors.title} required>Titre</Field>
-        <Field name="short" type="textarea" error={errors.short} required>Description courte</Field>
-        <Field name="content" type="textarea" error={errors.content} required>Description</Field>
+        <Field name="title" error={errors.title} defaultValue={recipe.title} required>Titre</Field>
+        <Field name="short" type="textarea" error={errors.short} defaultValue={recipe.short} required>Description courte</Field>
+        <Field name="content" type="textarea" error={errors.content} defaultValue={recipe.content} required>Description</Field>
       </div>
       <div className="col-md-6">
         <h5>Ingredients</h5>
         {recipeIngredients.map(i => <IngredientRow key={i.id} ingredient={i} onChange={updateQuantity} onDelete={deleteIngredient}/>)}
         {ingredients ? <Select ingredients={filteredIngredients} onChange={addIngredient}/> : <Loader/>}
       </div>
-      <Button type="submit">Ajouter</Button>
+      <div className="col-md-12 mt-3">
+        <Button type="submit">{button}</Button>
+      </div>
     </form>
   );
 };
@@ -96,8 +104,8 @@ const Select = ({ingredients, onChange}) => {
  * Hook perso pour l'ajout et la mise a jour des ingredients du select
  * @returns {{addIngredient: addIngredient, ingredients: *[]}}
  */
-const useIngredients = () => {
-  const [ingredients, setIngredients] = useState([]);
+const useIngredients = (initial) => {
+  const [ingredients, setIngredients] = useState(initial || []);
 
   return {
     ingredients: ingredients,
@@ -116,8 +124,9 @@ const useIngredients = () => {
   };
 };
 
-CreateRecipeForm.propTypes = {
+RecipeForm.propTypes = {
   ingredients: PropTypes.array,
+  onSubmit: PropTypes.func,
+  recipe: PropTypes.object,
+  button: PropTypes.string,
 };
-
-export default CreateRecipeForm;

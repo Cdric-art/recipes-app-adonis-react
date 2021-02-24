@@ -5,7 +5,7 @@ import Recipes from './Recipes/Recipes';
 import {useRecipes} from '../hooks/recipes';
 import Recipe from './Recipes/Recipe';
 import {useToggle} from '../hooks';
-import CreateRecipeForm from './Recipes/CreateRecipeForm';
+import {CreateRecipeForm} from './Recipes/RecipeForm';
 import Modal from './Ui/Modal';
 
 function Navbar({currentPage, onClick, onButtonClick}) {
@@ -52,6 +52,8 @@ const Site = () => {
     fetchRecipe,
     createRecipe,
     deselectRecipe,
+    updateRecipe,
+    deleteRecipe,
   } = useRecipes();
 
   let content = null;
@@ -75,7 +77,14 @@ const Site = () => {
   return (
     <>
       <Navbar currentPage={page} onClick={setPage} onButtonClick={toggleAdd}/>
-      {recipe ? <Recipe recipe={recipe} onClose={deselectRecipe}/> : null}
+      {recipe ? <Recipe
+        recipe={recipe}
+        ingredients={ingredients}
+        onClose={deselectRecipe}
+        onEdit={fetchIngredients}
+        onUpdate={updateRecipe}
+        onDelete={deleteRecipe}
+      /> : null}
       {content}
       {
         add && (
